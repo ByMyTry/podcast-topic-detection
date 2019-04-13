@@ -12,7 +12,7 @@ PODCAST_FILE_NAME_PREFIX = 'podcast'
 PODCAST_FILE_FORMAT = 'wav'
 TEMP_FILE_NAME_PREFIX = 'tmp'
 STEP = 100
-ANALIZED_PERCENT = 1.0  # 0.6
+ANALYZED_PERCENT = 1.0  # 0.6
 NUM_TOPICS = 10
 NUM_WORDS = 3
 
@@ -60,7 +60,7 @@ def recognize_text(podcast_file_name):
 
     # AudioSegment.converter = which("ffmpeg")
     audio = AudioSegment.from_wav(os.path.join(DATA_DIR, podcast_file_name))
-    fragments_count = int(len(audio) / (STEP * 1000) * ANALIZED_PERCENT)
+    fragments_count = int(len(audio) / (STEP * 1000) * ANALYZED_PERCENT)
     for i in range(fragments_count):
         print(i, '/', fragments_count)
         try:
@@ -100,8 +100,8 @@ def prepare_text_for_lda(text):
 def get_topics_by_lda(tokens):
     dictionary = gensim.corpora.Dictionary([tokens])
     corpus = [dictionary.doc2bow(text) for text in [tokens]]
-    ldamodel = gensim.models.ldamodel.LdaModel(corpus, num_topics=NUM_TOPICS, id2word=dictionary, passes=15)
-    return ldamodel.print_topics(num_words=NUM_WORDS)
+    lda_model = gensim.models.ldamodel.LdaModel(corpus, num_topics=NUM_TOPICS, id2word=dictionary, passes=15)
+    return lda_model.print_topics(num_words=NUM_WORDS)
 
 
 if __name__ == '__main__':
