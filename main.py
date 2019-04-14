@@ -12,8 +12,8 @@ PODCAST_FILE_NAME_PREFIX = 'podcast'
 PODCAST_FILE_FORMAT = 'wav'
 TEMP_FILE_NAME_PREFIX = 'tmp'
 STEP = 100
-ANALYZED_PERCENT = 1.0  # 0.6
-NUM_TOPICS = 10
+ANALYZED_PERCENT = 0.15
+NUM_TOPICS = 1
 NUM_WORDS = 3
 
 
@@ -35,20 +35,20 @@ def _get_file_name(file_name_prefix, file_format):
 def download_podcast(url=None):
     if url is not None:
         podcast_file_name = _get_file_name(PODCAST_FILE_NAME_PREFIX, PODCAST_FILE_FORMAT)
-        ydl_opts = {
-            'format': 'bestaudio/best',
-            'postprocessors': [{
-                'key': 'FFmpegExtractAudio',
-                'preferredcodec': PODCAST_FILE_FORMAT,
-                'preferredquality': '192'
-            }],
-            'outtmpl': PODCAST_FILE_NAME_PREFIX,
-            'prefer_ffmpeg': True,
-            'keepvideo': False
-        }
-        with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            ydl.download([url])
-        os.rename(PODCAST_FILE_FORMAT, os.path.join(DATA_DIR, podcast_file_name))
+        # ydl_opts = {
+        #     'format': 'bestaudio/best',
+        #     'postprocessors': [{
+        #         'key': 'FFmpegExtractAudio',
+        #         'preferredcodec': PODCAST_FILE_FORMAT,
+        #         'preferredquality': '192'
+        #     }],
+        #     'outtmpl': PODCAST_FILE_NAME_PREFIX,
+        #     'prefer_ffmpeg': True,
+        #     'keepvideo': False
+        # }
+        # with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        #     ydl.download([url])
+        # os.rename(PODCAST_FILE_FORMAT, os.path.join(DATA_DIR, podcast_file_name))
         return podcast_file_name
     else:
         raise Exception('url is empty')
@@ -75,7 +75,11 @@ def recognize_text(podcast_file_name):
             text_chunks.append(recognizer.recognize_google(podcast_audio, language='ru_RU').lower())
         except Exception as e:
             print(e)
-    return ' '.join(text_chunks)
+    text = ' '.join(text_chunks)
+    print(text)
+    with open(os.path.join(DATA_DIR, _get_file_name(PODCAST_FILE_NAME_PREFIX, 'txt1')), 'w+') as f:
+        f.write(text)
+    return text
 
 
 def _tokenize_text(text):
