@@ -12,7 +12,7 @@ PODCAST_FILE_NAME_PREFIX = 'podcast'
 PODCAST_FILE_FORMAT = 'wav'
 TEMP_FILE_NAME_PREFIX = 'tmp'
 STEP = 100
-ANALYZED_PERCENT = 0.15
+ANALYZED_PERCENT = 0.6
 NUM_TOPICS = 1
 NUM_WORDS = 3
 
@@ -77,7 +77,7 @@ def recognize_text(podcast_file_name):
             print(e)
     text = ' '.join(text_chunks)
     print(text)
-    with open(os.path.join(DATA_DIR, _get_file_name(PODCAST_FILE_NAME_PREFIX, 'txt1')), 'w+') as f:
+    with open(os.path.join(DATA_DIR, _get_file_name(PODCAST_FILE_NAME_PREFIX, 'txt')), 'w+') as f:
         f.write(text)
     return text
 
