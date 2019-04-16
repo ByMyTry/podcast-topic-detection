@@ -72,7 +72,7 @@ def recognize_text(podcast_file_name):
             recognizer = sr.Recognizer()
             with sr.AudioFile(os.path.join(DATA_DIR, tmp_file_name)) as source:
                 podcast_audio = recognizer.record(source)
-            text_chunks.append(recognizer.recognize_google(podcast_audio, language='ru_RU').lower())
+            text_chunks.append(recognizer.recognize_google(podcast_audio, language='ru_RU'))
         except Exception as e:
             print(e)
     text = ' '.join(text_chunks)
